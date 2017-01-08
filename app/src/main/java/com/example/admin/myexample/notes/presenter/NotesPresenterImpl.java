@@ -23,22 +23,22 @@ public class NotesPresenterImpl implements NotesPresenter{
 
     private static final String TAG = "NotesPresenterTAG_";
     private NotesView notesView;
+    private RetrofitHelper.Factory factory;
     private List<Note> notes;
 
-    public NotesPresenterImpl(NotesView notesView) {
+    public NotesPresenterImpl(NotesView notesView, RetrofitHelper.Factory factory) {
         this.notesView = notesView;
+        this.factory = factory;
     }
 
     @Override
     public void loadNotes() {
         notesView.showProgress();
-        Call<List<Note>> call = RetrofitHelper.Factory.getNotes();
+        Call<List<Note>> call = factory.getNotes();
         call.enqueue(new Callback<List<Note>>() {
             @Override
             public void onResponse(Call<List<Note>> call, Response<List<Note>> response) {
                 notes = response.body();
-                for (Note note : notes)
-                    Log.d(TAG, "onResponse: " + note.toString());
                 notesView.refreshData(notes);
                 notesView.hideProgress();
             }
@@ -48,6 +48,11 @@ public class NotesPresenterImpl implements NotesPresenter{
                 notesView.hideProgress();
             }
         });
+    }
+
+    @Override
+    public void addNote() {
+        notesView.openAddNote();
     }
 
 }

@@ -7,4 +7,5 @@ package com.example.admin.myexample.notes.presenter;
 
 public interface NotesPresenter {
     void loadNotes();
+    void addNote();
 }

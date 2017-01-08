@@ -14,6 +14,7 @@ import com.example.admin.myexample.editnote.presenter.EditNotePresenter;
 import com.example.admin.myexample.editnote.presenter.EditNotePresenterImpl;
 import com.example.admin.myexample.notes.helper.NotesAdapter;
 import com.example.admin.myexample.notes.view.NotesActivity;
+import com.example.admin.myexample.rest.RetrofitHelper;
 
 public class EditNoteActivity extends AppCompatActivity implements EditNoteView{
 
@@ -29,7 +30,7 @@ public class EditNoteActivity extends AppCompatActivity implements EditNoteView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_note);
-        editNotePresenter = new EditNotePresenterImpl(this);
+        editNotePresenter = new EditNotePresenterImpl(this, new RetrofitHelper.Factory());
         note = getIntent().getParcelableExtra(NotesAdapter.ViewHolder.MY_NOTE);
         progressBar = (ProgressBar) findViewById(R.id.notesProgressBar);
         titleEdit = (EditText) findViewById(R.id.editNoteTitle);

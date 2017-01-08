@@ -19,9 +19,11 @@ import retrofit2.Response;
 public class EditNotePresenterImpl implements EditNotePresenter {
 
     private EditNoteView editNoteView;
+    private RetrofitHelper.Factory factory;
 
-    public EditNotePresenterImpl(EditNoteView editNoteView) {
+    public EditNotePresenterImpl(EditNoteView editNoteView, RetrofitHelper.Factory factory) {
         this.editNoteView = editNoteView;
+        this.factory = factory;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class EditNotePresenterImpl implements EditNotePresenter {
             editNoteView.showProgress();
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
             note.setDateUpdated(sdf.format(new Date()));
-            Call<Note> call = RetrofitHelper.Factory.updateNote(note);
+            Call<Note> call = factory.updateNote(note);
             call.enqueue(new Callback<Note>() {
                 @Override
                 public void onResponse(Call<Note> call, Response<Note> response) {

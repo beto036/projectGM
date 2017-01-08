@@ -16,6 +16,7 @@ import com.example.admin.myexample.data.Note;
 import com.example.admin.myexample.notes.helper.NotesAdapter;
 import com.example.admin.myexample.notes.presenter.NotesPresenter;
 import com.example.admin.myexample.notes.presenter.NotesPresenterImpl;
+import com.example.admin.myexample.rest.RetrofitHelper;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class NotesActivity extends AppCompatActivity implements NotesView{
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.notesRecycler);
         progressBar = (ProgressBar) findViewById(R.id.notesProgressBar);
-        notesPresenter = new NotesPresenterImpl(this);
+        notesPresenter = new NotesPresenterImpl(this, new RetrofitHelper.Factory());
         loadNotes();
     }
 
@@ -60,9 +61,14 @@ public class NotesActivity extends AppCompatActivity implements NotesView{
         notesAdapter.notifyDataSetChanged();
     }
 
-    public void addNote(View view) {
+    @Override
+    public void openAddNote() {
         Log.d(TAG, "addNote: Adding a note");
         Intent intent = new Intent(this, AddNoteActivity.class);
         startActivity(intent);
+    }
+
+    public void addNote(View view) {
+        notesPresenter.addNote();
     }
 }

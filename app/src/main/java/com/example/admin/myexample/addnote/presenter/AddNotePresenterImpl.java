@@ -20,9 +20,11 @@ import retrofit2.Response;
 public class AddNotePresenterImpl implements AddNotePresenter{
 
     private AddNoteView addNoteView;
+    private RetrofitHelper.Factory factory;
 
-    public AddNotePresenterImpl(AddNoteView addNoteView) {
+    public AddNotePresenterImpl(AddNoteView addNoteView, RetrofitHelper.Factory factory) {
         this.addNoteView = addNoteView;
+        this.factory = factory;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class AddNotePresenterImpl implements AddNotePresenter{
             addNoteView.showProgress();
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
             note.setDateCreated(sdf.format(new Date()));
-            Call<Note> call = RetrofitHelper.Factory.saveNote(note);
+            Call<Note> call = factory.saveNote(note);
             call.enqueue(new Callback<Note>() {
                 @Override
                 public void onResponse(Call<Note> call, Response<Note> response) {

@@ -13,6 +13,7 @@ import com.example.admin.myexample.addnote.presenter.AddNotePresenter;
 import com.example.admin.myexample.addnote.presenter.AddNotePresenterImpl;
 import com.example.admin.myexample.data.Note;
 import com.example.admin.myexample.notes.view.NotesActivity;
+import com.example.admin.myexample.rest.RetrofitHelper;
 
 public class AddNoteActivity extends AppCompatActivity implements AddNoteView{
 
@@ -27,7 +28,7 @@ public class AddNoteActivity extends AppCompatActivity implements AddNoteView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
-        addNotePresenter = new AddNotePresenterImpl(this);
+        addNotePresenter = new AddNotePresenterImpl(this, new RetrofitHelper.Factory());
         titleEdit = (EditText) findViewById(R.id.addNoteTitle);
         descEdit = (EditText) findViewById(R.id.addNoteDesc);
         titleEditLayout = (TextInputLayout) findViewById(R.id.addNoteTitleLayout);

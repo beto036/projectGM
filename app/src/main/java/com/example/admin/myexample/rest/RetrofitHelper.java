@@ -30,22 +30,22 @@ public class RetrofitHelper {
                     .build();
         }
 
-        public static Call<List<Note>> getNotes () {
+        public Call<List<Note>> getNotes () {
             Retrofit retrofit = create();
             NoteService noteService = retrofit.create(NoteService.class);
             return noteService.getNotes(API_KEY);
         }
 
-        public static Call<Note> saveNote(Note note){
+        public Call<Note> saveNote(Note note){
             Retrofit retrofit = create();
             NoteService noteService = retrofit.create(NoteService.class);
             return noteService.saveNote(API_KEY,note);
         }
 
-        public static Call<Note> updateNote(Note note){
+        public Call<Note> updateNote(Note note){
             Retrofit retrofit = create();
             NoteService noteService = retrofit.create(NoteService.class);
-            return  noteService.updateNote(note.getId().getOid(), API_KEY, note);
+            return  noteService.updateNote(note.getId().getOid(),API_KEY,note);
         }
     }
 

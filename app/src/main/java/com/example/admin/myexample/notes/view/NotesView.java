@@ -12,4 +12,5 @@ public interface NotesView {
     void showProgress();
     void hideProgress();
     void refreshData(List<Note> notes);
+    void openAddNote();
 }
