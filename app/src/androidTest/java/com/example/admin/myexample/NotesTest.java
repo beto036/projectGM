@@ -22,9 +22,7 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -52,8 +50,8 @@ public class NotesTest {
 
     @Test
     public void scrollAndClickOnNoteTest(){
-        onView(withId(R.id.notesRecycler)).perform(RecyclerViewActions.scrollToPosition(3));
-        onView(withId(R.id.notesRecycler)).perform(RecyclerViewActions.actionOnItemAtPosition(3,click()));
+        onView(withId(R.id.notesRecycler)).perform(RecyclerViewActions.scrollToPosition(2));
+        onView(withId(R.id.notesRecycler)).perform(RecyclerViewActions.actionOnItemAtPosition(2,click()));
         onView(withId(R.id.noteDetailsTitle)).check(matches(isDisplayed()));
     }
 

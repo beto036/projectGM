@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.example.admin.myexample.R;
 import com.example.admin.myexample.data.Note;
 import com.example.admin.myexample.editnote.view.EditNoteActivity;
+import com.example.admin.myexample.notedetails.presenter.NoteDetailsPresenter;
+import com.example.admin.myexample.notedetails.presenter.NoteDetailsPresenterImpl;
 import com.example.admin.myexample.notes.helper.NotesAdapter;
 
 public class NoteDetailsActivity extends AppCompatActivity implements NoteDetailsView{
@@ -19,7 +21,7 @@ public class NoteDetailsActivity extends AppCompatActivity implements NoteDetail
     private TextView descTxt;
     private TextView createdTxt;
     private TextView updatedTxt;
-    private ProgressBar progressBar;
+    private NoteDetailsPresenter noteDetailsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,8 @@ public class NoteDetailsActivity extends AppCompatActivity implements NoteDetail
         descTxt = (TextView) findViewById(R.id.noteDetailsDesc);
         createdTxt = (TextView) findViewById(R.id.noteDetailsCreated);
         updatedTxt = (TextView) findViewById(R.id.noteDetailsUpdated);
-        showDetails();
+        noteDetailsPresenter = new NoteDetailsPresenterImpl(this);
+        noteDetailsPresenter.showDetails();
     }
 
     @Override
@@ -42,9 +45,15 @@ public class NoteDetailsActivity extends AppCompatActivity implements NoteDetail
             updatedTxt.setText("Last Update: " + note.getDateUpdated());
     }
 
-    public void editNote(View view) {
+    @Override
+    public void goToEdit() {
         Intent intent = new Intent(this, EditNoteActivity.class);
         intent.putExtra(NotesAdapter.ViewHolder.MY_NOTE,note);
         startActivity(intent);
     }
+
+    public void editNote(View view) {
+        noteDetailsPresenter.editNote();
+    }
+
 }

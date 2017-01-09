@@ -6,4 +6,5 @@ package com.example.admin.myexample.notedetails.view;
 
 public interface NoteDetailsView {
     void showDetails();
+    void goToEdit();
 }

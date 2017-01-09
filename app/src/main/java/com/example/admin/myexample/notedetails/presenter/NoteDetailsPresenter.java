@@ -5,5 +5,6 @@ package com.example.admin.myexample.notedetails.presenter;
  */
 
 public interface NoteDetailsPresenter {
-
+    void editNote();
+    void showDetails();
 }
