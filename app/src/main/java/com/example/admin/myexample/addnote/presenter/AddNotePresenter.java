@@ -1,5 +1,7 @@
 package com.example.admin.myexample.addnote.presenter;
 
+import android.graphics.Bitmap;
+
 import com.example.admin.myexample.data.Note;
 
 /**
@@ -7,5 +9,6 @@ import com.example.admin.myexample.data.Note;
  */
 
 public interface AddNotePresenter {
-    void saveNote(Note note);
+    void saveNote(Note note, Bitmap imageBitmap);
+    void takePicture();
 }

@@ -1,5 +1,7 @@
 package com.example.admin.myexample.editnote.presenter;
 
+import android.graphics.Bitmap;
+
 import com.example.admin.myexample.data.Note;
 
 /**
@@ -7,5 +9,6 @@ import com.example.admin.myexample.data.Note;
  */
 
 public interface EditNotePresenter {
-    void updateNote(Note note);
+    void updateNote(Note note, Bitmap imageBitmap);
+    void changePicture();
 }

@@ -11,6 +11,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Note implements Parcelable {
 
+    private String image;
     private String title;
     private String description;
     @SerializedName("created")
@@ -65,6 +66,14 @@ public class Note implements Parcelable {
         this.dateUpdated = dateUpdated;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Note{" +
@@ -77,6 +86,7 @@ public class Note implements Parcelable {
     }
 
     protected Note(Parcel in) {
+        image = in.readString();
         title = in.readString();
         description = in.readString();
         dateCreated = in.readString();
@@ -91,6 +101,7 @@ public class Note implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(image);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(dateCreated);

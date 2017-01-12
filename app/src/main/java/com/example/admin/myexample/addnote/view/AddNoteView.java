@@ -13,4 +13,5 @@ public interface AddNoteView {
     void showErrorDesc(String error);
     void hideErrors();
     void listNotes();
+    void takePicture();
 }

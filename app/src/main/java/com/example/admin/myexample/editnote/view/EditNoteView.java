@@ -11,4 +11,5 @@ public interface EditNoteView {
     void hideErrors();
     void showErrorDesc(String s);
     void showErrorTitle(String s);
+    void changePicture();
 }

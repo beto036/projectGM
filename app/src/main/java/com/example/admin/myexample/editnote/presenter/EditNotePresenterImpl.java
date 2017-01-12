@@ -1,12 +1,18 @@
 package com.example.admin.myexample.editnote.presenter;
 
-import com.example.admin.myexample.addnote.view.AddNoteView;
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+
 import com.example.admin.myexample.data.Note;
 import com.example.admin.myexample.editnote.view.EditNoteView;
 import com.example.admin.myexample.rest.RetrofitHelper;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.ByteArrayOutputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,24 +26,49 @@ public class EditNotePresenterImpl implements EditNotePresenter {
 
     private EditNoteView editNoteView;
     private RetrofitHelper.Factory factory;
+    private FirebaseStorage firebaseStorage;
 
-    public EditNotePresenterImpl(EditNoteView editNoteView, RetrofitHelper.Factory factory) {
+    public EditNotePresenterImpl(EditNoteView editNoteView, RetrofitHelper.Factory factory, FirebaseStorage firebaseStorage) {
         this.editNoteView = editNoteView;
         this.factory = factory;
+        this.firebaseStorage = firebaseStorage;
     }
 
     @Override
-    public void updateNote(Note note) {
+    public void updateNote(Note note, Bitmap imageBitmap) {
+        final Bitmap bitmap = imageBitmap;
+        final String image = note.getImage();
         if(validateFields(note)) {
             editNoteView.showProgress();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-            note.setDateUpdated(sdf.format(new Date()));
             Call<Note> call = factory.updateNote(note);
             call.enqueue(new Callback<Note>() {
                 @Override
                 public void onResponse(Call<Note> call, Response<Note> response) {
-                    editNoteView.hideProgress();
-                    editNoteView.listNotes();
+                    if(bitmap != null){
+                        StorageReference storageRef = firebaseStorage.getReferenceFromUrl("gs://myproject-4c17b.appspot.com");
+                        StorageReference imageRef = storageRef.child(image);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] data = baos.toByteArray();
+
+                        UploadTask uploadTask = imageRef.putBytes(data);
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                editNoteView.hideProgress();
+                            }
+                        });
+                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                editNoteView.hideProgress();
+                                editNoteView.listNotes();
+                            }
+                        });
+                    }else{
+                        editNoteView.hideProgress();
+                        editNoteView.listNotes();
+                    }
                 }
 
                 @Override
@@ -46,6 +77,11 @@ public class EditNotePresenterImpl implements EditNotePresenter {
                 }
             });
         }
+    }
+
+    @Override
+    public void changePicture() {
+        editNoteView.changePicture();
     }
 
     private boolean validateFields(Note note){
